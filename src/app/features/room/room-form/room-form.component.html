@@ -1,0 +1,71 @@
+<div class="room-form-container" [class.active]="room">
+  <div class="room-form-overlay" (click)="onCancel()"></div>
+  <form class="room-form" [formGroup]="roomForm" (ngSubmit)="onSubmit()">
+    <button type="button" class="close-btn" (click)="onCancel()">
+      <mat-icon>close</mat-icon>
+    </button>
+    
+    <h2>
+      <mat-icon>meeting_room</mat-icon>
+      {{ room ? 'Edit Room' : 'Create New Room' }}
+    </h2>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label>
+          <mat-icon>badge</mat-icon>
+          Room Name
+        </label>
+        <input type="text" formControlName="name" placeholder="e.g. Conference A">
+        <div class="error-message" *ngIf="roomForm.get('name')?.invalid && roomForm.get('name')?.touched">
+          Room name is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>
+          <mat-icon>location_city</mat-icon>
+          Building
+        </label>
+        <input type="text" formControlName="building" placeholder="e.g. Main Building">
+        <div class="error-message" *ngIf="roomForm.get('building')?.invalid && roomForm.get('building')?.touched">
+          Building is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>
+          <mat-icon>floor</mat-icon>
+          Floor
+        </label>
+        <input type="text" formControlName="floor" placeholder="e.g. 3rd Floor">
+        <div class="error-message" *ngIf="roomForm.get('floor')?.invalid && roomForm.get('floor')?.touched">
+          Floor is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>
+          <mat-icon>event_available</mat-icon>
+          Status
+        </label>
+        <select formControlName="status">
+          <option value="Available">Available</option>
+          <option value="Occupied">Occupied</option>
+          <option value="Maintenance">Under Maintenance</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn-cancel" (click)="onCancel()">
+        <mat-icon>cancel</mat-icon>
+        Cancel
+      </button>
+      <button type="submit" class="btn-submit" [disabled]="!roomForm.valid">
+        <mat-icon>{{ room ? 'update' : 'add_circle' }}</mat-icon>
+        {{ room ? 'Update Room' : 'Create Room' }}
+      </button>
+    </div>
+  </form>
+</div>

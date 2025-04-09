@@ -1,0 +1,239 @@
+:host {
+  display: block;
+  height: 100%;
+  width: 100%;
+  --sidebar-width: 250px;
+  --sidebar-collapsed-width: 70px;
+  --content-padding: 2rem;
+}
+
+.app-container {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.background-overlay {
+  position: fixed; /* Changed from absolute */
+  inset: 0;
+  z-index: -1;
+}
+
+.background-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.sidebar {
+  background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+  color: white;
+  height: 100%;
+  width: 100%; /* Fill grid column */
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar.collapsed {
+  width: var(--sidebar-collapsed-width);
+}
+
+.sidebar-content {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.company-info {
+  padding: 1.5rem 1rem;
+  display: flex;
+  align-items: center;
+  position: relative;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  min-height: 80px;
+}
+
+.logo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  transition: all 0.3s ease;
+}
+
+.company-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-left: 0.75rem;
+  white-space: nowrap;
+  color: #e0e0e0;
+}
+
+.toggle-btn {
+  position: absolute;
+  right: -18px;
+  background: #032D39;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.toggle-btn:hover {
+  background: rgba(24, 255, 224, 0.3);
+}
+
+/* Navigation Styles */
+.sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 20px;
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  padding: 1rem 0;
+  margin: 0;
+}
+
+.sidebar-nav li a {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  margin: 0 0.5rem;
+  border-radius: 6px;
+}
+
+.sidebar-nav li a:hover,
+.sidebar-nav li a.active {
+  background: rgba(24, 255, 224, 0.3);
+  color: #ffffff;
+}
+
+.sidebar-nav mat-icon {
+  margin-right: 1rem;
+  flex-shrink: 0;
+  color: #48b9c7;
+}
+
+/* Login Section */
+.login-section {
+  padding: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+}
+
+.login-section button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.75rem;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.login-section button:hover {
+  background: rgba(24, 255, 224, 0.3);
+  color: #a8f0e6;
+}
+
+.login-section mat-icon {
+  margin-right: 1rem;
+  color: #63b3ed;
+}
+
+.main-content {
+  position: relative;
+  overflow-y: auto;
+  height: 100%; /* Use parent height */
+}
+
+.content-container {
+  flex: 1;
+  padding: var(--content-padding);
+  width: 100%;
+  min-height: 0;
+}
+
+/* Collapsed State Styles */
+.sidebar.collapsed {
+  .company-name,
+  .sidebar-nav span,
+  .login-section span {
+    display: none;
+  }
+
+  .company-info {
+    justify-content: center;
+    padding: 1.5rem 0.5rem;
+  }
+
+  .logo {
+    margin: 0 auto;
+  }
+
+  .sidebar-nav li a {
+    padding: 0.75rem;
+    justify-content: center;
+  }
+
+  .sidebar-nav mat-icon {
+    margin-right: 0;
+  }
+
+  .login-section button {
+    justify-content: center;
+    padding: 0.75rem;
+  }
+
+  .login-section mat-icon {
+    margin-right: 0;
+    font-size: 24px;
+  }
+}
+/* Mobile fixes */
+@media (max-width: 768px) {
+  .app-container {
+    grid-template-columns: 1fr;
+    height: 100dvh;
+  }
+  
+  .sidebar {
+    position: fixed;
+    transform: translateX(-100%);
+    z-index: 1000;
+  }
+  
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  
+  .main-content {
+    height: 100dvh;
+    margin-left: 0;
+  }
+}

@@ -1,0 +1,23 @@
+<app-base-calendar [isAdmin]="true">
+  <!-- Dashboard Section -->
+  <div dashboard class="admin-dashboard">
+    <div class="dashboard-stats">
+      <div class="stat-card" matTooltip="Total available rooms">
+        <h4><mat-icon>meeting_room</mat-icon> Total Rooms</h4>
+        <p>{{dashboardStats.totalRooms}}</p>
+      </div>
+      <div class="stat-card" matTooltip="All reservations in system">
+        <h4><mat-icon>event</mat-icon> Total Reservations</h4>
+        <p>{{dashboardStats.totalReservations}}</p>
+      </div>
+      <div class="stat-card" matTooltip="Reservations awaiting approval">
+        <h4><mat-icon>pending_actions</mat-icon> Pending Approvals</h4>
+        <p>{{dashboardStats.pendingApprovals}}</p>
+      </div>
+      <div class="stat-card warning" matTooltip="Potential scheduling conflicts">
+        <h4><mat-icon>warning</mat-icon> Time Conflicts</h4>
+        <p>{{dashboardStats.timeConflicts}}</p>
+      </div>
+    </div>
+  </div>
+</app-base-calendar>

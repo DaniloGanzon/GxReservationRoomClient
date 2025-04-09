@@ -1,0 +1,100 @@
+<div class="auth-wrapper">
+    <div class="auth-container">
+      <div class="auth-header">
+        <div class="brand-section">
+          <img src="GXlogo.png" alt="GX Logo" class="brand-logo">
+          <h1 class="brand-title">Auth GX</h1>
+        </div>
+      </div>
+  
+      <div class="auth-content">
+        <div class="form-container">
+          <div class="form-header">
+            <h2 class="form-title">{{ isLoginMode ? 'Welcome Back' : 'Create Account' }}</h2>
+            <p class="form-subtitle">
+              {{ isLoginMode ? 'New here?' : 'Already have an account?' }}
+              <a (click)="toggleMode()" class="auth-link cursor-pointer">
+                {{ isLoginMode ? 'Create Account' : 'Sign In' }}
+              </a>
+            </p>
+          </div>
+  
+          <form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form">
+            <!-- Username Field -->
+            <div class="input-group" *ngIf="showAdditionalFields">
+              <label class="input-label">
+                <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <input type="text" class="auth-input" formControlName="username" placeholder="Full name">
+              </label>
+              <div *ngIf="form.controls['username'].invalid && (form.controls['username'].touched)" class="validation-error">
+                Full name is required
+              </div>
+            </div>
+  
+            <!-- Email Field -->
+            <div class="input-group">
+              <label class="input-label">
+                <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                <input type="email" class="auth-input" formControlName="email" placeholder="Email address">
+              </label>
+              <div *ngIf="form.controls['email'].invalid && (form.controls['email'].touched)" class="validation-error">
+                <div *ngIf="form.controls['email'].errors?.['required']">Email is required</div>
+                <div *ngIf="form.controls['email'].errors?.['email']">Invalid email format</div>
+              </div>
+            </div>
+  
+            <!-- Password Field -->
+            <div class="input-group">
+              <label class="input-label">
+                <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2z"></path>
+                  <line x1="12" y1="7" x2="12" y2="13"></line>
+                  <line x1="9" y1="10" x2="15" y2="10"></line>
+                </svg>
+                <input type="password" class="auth-input" formControlName="password" placeholder="Password">
+              </label>
+              <div *ngIf="form.controls['password'].invalid && (form.controls['password'].touched)" class="validation-error">
+                <div *ngIf="form.controls['password'].errors?.['required']">Password is required</div>
+                <div *ngIf="form.controls['password'].errors?.['minlength']">Minimum 6 characters</div>
+                <div *ngIf="form.controls['password'].errors?.['weakPassword']">
+                  Include uppercase, number, and special character
+                </div>
+              </div>
+            </div>
+  
+            <!-- Confirm Password Field -->
+            <div class="input-group" *ngIf="showAdditionalFields">
+              <label class="input-label">
+                <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.07V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="23 3 12 14 9 11"></polyline>
+                </svg>
+                <input type="password" class="auth-input" formControlName="confirmPassword" placeholder="Confirm password">
+              </label>
+              <div *ngIf="form.errors?.['passwordMismatch'] && form.controls['confirmPassword']?.dirty" 
+                   class="validation-error">
+                Passwords do not match
+              </div>
+            </div>
+  
+            <button class="auth-button" [disabled]="form.invalid">
+              <span>{{ isLoginMode ? 'Sign In' : 'Create Account' }}</span>
+              <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
+            </button>
+  
+            <div *ngIf="authError" class="validation-error mt-3 text-center">
+              {{ authError }}
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

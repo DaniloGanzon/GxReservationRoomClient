@@ -1,0 +1,35 @@
+<div class="custom-calendar">
+  <div class="calendar-header">
+    <button matTooltip="Previous month" class="nav-button" (click)="prevMonth()">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    <h2>{{getMonthYear()}}</h2>
+    <button matTooltip="Next month" class="nav-button" (click)="nextMonth()">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+
+  <div class="calendar-grid">
+    <div class="weekday-header" *ngFor="let day of ['', '', '', '', '', '', '']">
+      {{day}}
+    </div>
+
+    <div *ngFor="let week of weeks" class="calendar-week">
+      <div 
+        *ngFor="let day of week" 
+        class="calendar-day"
+        [class.outside-month]="day.getMonth() !== currentDate.getMonth()"
+        [class.selected]="isSelected(day)"
+        [class.has-reservation]="hasReservation(day)"
+        (click)="onDateClick(day)"
+      >
+        <div class="day-tile">
+          <div class="day-number">{{day.getDate()}}</div>
+          <div *ngIf="hasReservation(day)" class="reservation-marker">
+            <mat-icon>event_available</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

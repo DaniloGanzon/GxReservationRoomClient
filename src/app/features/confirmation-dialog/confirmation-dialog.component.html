@@ -1,0 +1,27 @@
+<div class="dialog-overlay" (click)="cancel()">
+    <div class="dialog-container" (click)="$event.stopPropagation()">
+      <div class="dialog-header">
+        <span class="dialog-icon">{{ icon }}</span>
+        <h2 class="dialog-title">{{ title }}</h2>
+      </div>
+      
+      <p class="dialog-message">{{ message }}</p>
+      
+      <div class="dialog-actions">
+        <button 
+          class="cancel-button" 
+          (click)="cancel()"
+          [attr.data-action-type]="actionType"
+        >
+          {{ cancelText }}
+        </button>
+        <button 
+          class="confirm-button"
+          (click)="confirm()"
+          [attr.data-action-type]="actionType"
+        >
+          {{ confirmText }}
+        </button>
+      </div>
+    </div>
+  </div>

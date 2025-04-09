@@ -1,0 +1,343 @@
+:host {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.reservation-management-container {
+  padding: 0;
+  color: #2d3748;
+  width: 100%;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: #f8f9fa;
+}
+
+/* Header Section */
+.header {
+  padding: 1.5rem 3rem;
+  background: linear-gradient(135deg, #4a6fa5 0%, #166088 100%);
+  color: white;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.1), transparent);
+}
+
+.header-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+h1 {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+h1 mat-icon {
+  color: #a5d8ff;
+  font-size: 2.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.header-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 2rem;
+}
+
+.stats {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem 1.5rem;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  min-width: 180px;
+}
+
+.stat-card mat-icon {
+  font-size: 2.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  color: #bee3f8;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-value {
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1;
+  color: white;
+}
+
+.stat-label {
+  font-size: 1rem;
+  opacity: 0.9;
+  font-weight: 500;
+  color: #ebf8ff;
+}
+
+/* Content Section */
+.content-container {
+  padding: 2rem 3rem;
+  width: 100%;
+}
+
+.reservation-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+  width: 100%;
+}
+
+.reservation-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.75rem;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 300px;
+}
+
+.reservation-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, #4299e1, #63b3ed);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.reservation-card:hover::before {
+  opacity: 1;
+}
+
+.reservation-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.reservation-card.approved {
+  border-left: 5px solid #48bb78;
+}
+
+.reservation-card.pending {
+  border-left: 5px solid #d69e2e;
+}
+
+.reservation-card.rejected {
+  border-left: 5px solid #e53e3e;
+}
+
+.reservation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.reservation-header h3 {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2d3748;
+}
+
+.reservation-header h3 mat-icon {
+  color: #4299e1;
+  font-size: 1.75rem;
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.status-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: #fff5f5;
+  color: #e53e3e;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.status-badge.approved {
+  background: #f0fff4;
+  color: #38a169;
+}
+
+.status-badge.pending {
+  background: #feebc8;
+  color: #b7791f;
+}
+
+.status-badge.rejected {
+  background: #fff5f5;
+  color: #e53e3e;
+}
+
+.status-icon {
+  font-size: 1.2rem !important;
+  width: 1.2rem !important;
+  height: 1.2rem !important;
+}
+
+.reservation-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 2;
+  flex-grow: 1;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #4a5568;
+  font-size: 1.1rem;
+}
+
+.detail-item mat-icon {
+  color: #718096;
+  font-size: 1.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.reservation-card-accent {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(99, 179, 237, 0.15) 0%, transparent 70%);
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.reservation-card:hover .reservation-card-accent {
+  opacity: 1;
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .reservation-list {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}
+
+@media (max-width: 992px) {
+  .header-controls {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 1.5rem;
+  }
+  
+  .stats {
+    width: 100%;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  
+  .stat-card {
+    min-width: 140px;
+    padding: 0.75rem 1rem;
+    gap: 1rem;
+  }
+  
+  .content-container {
+    padding: 1.5rem;
+  }
+  
+  .reservation-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reservation-card {
+  animation: fadeIn 0.5s ease forwards;
+  opacity: 0;
+}
+
+.reservation-card:nth-child(1) { animation-delay: 0.1s; }
+.reservation-card:nth-child(2) { animation-delay: 0.2s; }
+.reservation-card:nth-child(3) { animation-delay: 0.3s; }
+.reservation-card:nth-child(4) { animation-delay: 0.4s; }
+.reservation-card:nth-child(5) { animation-delay: 0.5s; }
+.reservation-card:nth-child(6) { animation-delay: 0.6s; }

@@ -1,0 +1,64 @@
+<div class="reservation-list">
+  <div class="list-header">
+      <h3>{{ dateTimeService.formatDisplayDate(selectedDate | date:'yyyy-MM-dd') }}</h3>
+  </div>
+
+  <div *ngIf="getDateReservations().length === 0" class="no-reservations">
+      <mat-icon class="no-reservations-icon">event_busy</mat-icon>
+      <span>No reservations for this date</span>
+  </div>
+
+  <!-- Admin View -->
+  <div *ngIf="isAdmin" class="admin-list">
+    <div *ngFor="let res of getDateReservations()" class="reservation-item admin-item">
+      <div class="reservation-header">
+        <span class="title">{{res.name || 'Untitled Reservation'}}</span>
+        <span class="status" [class]="getStatusClass(res.status)">
+          {{getSafeStatus(res)}}
+        </span>
+      </div>
+      
+      <div class="reservation-details">
+        <div class="detail">
+          <mat-icon class="detail-icon">description</mat-icon>
+          <div class="detail-content">
+            <label>Purpose:</label>
+            <span>{{res.purpose || 'Not specified'}}</span>
+          </div>
+        </div>
+        <div class="detail">
+          <mat-icon class="detail-icon">meeting_room</mat-icon>
+          <div class="detail-content">
+            <label>Room:</label>
+            <span class="room-name">{{res.room?.name || 'Unknown Room'}}</span>
+          </div>
+        </div>
+        <div class="detail">
+          <mat-icon class="detail-icon">schedule</mat-icon>
+          <div class="detail-content">
+            <label>Time:</label>
+            <span>{{getSafeTimeRange(res)}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- User View -->
+  <div *ngIf="!isAdmin" class="user-list">
+    <div *ngFor="let res of getDateReservations()" class="reservation-item user-item">
+      <div class="user-reservation-content">
+        <mat-icon class="user-reservation-icon">meeting_room</mat-icon>
+        <div class="user-reservation-info">
+          <span class="room-name">{{res.name || 'Unknown Room'}}</span>
+          <span class="time-range">
+            {{getSafeTimeRange(res)}}
+          </span>
+        </div>
+      </div>
+      <span class="status" [class]="getStatusClass(res.status)">
+        {{getSafeStatus(res)}}
+      </span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,142 @@
+<div class="reservation-management-container">
+  <div class="header">
+    <div class="header-content">
+      <h1>
+        <mat-icon>event</mat-icon>
+        Reservation Management
+      </h1>
+      <div class="header-controls">
+        <div class="stats">
+          <div class="stat-card" (click)="filterByStatus('all')">
+            <mat-icon>list_alt</mat-icon>
+            <div class="stat-info">
+              <span class="stat-value">{{ allReservations.length }}</span>
+              <span class="stat-label">Total Reservations</span>
+            </div>
+          </div>
+          <div class="stat-card" (click)="filterByStatus('approved')">
+            <mat-icon>check_circle</mat-icon>
+            <div class="stat-info">
+              <span class="stat-value">{{ approvedCount }}</span>
+              <span class="stat-label">Approved</span>
+            </div>
+          </div>
+          <div class="stat-card" (click)="filterByStatus('pending')">
+            <mat-icon>pending</mat-icon>
+            <div class="stat-info">
+              <span class="stat-value">{{ pendingCount }}</span>
+              <span class="stat-label">Pending</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="filters">
+          <select [(ngModel)]="selectedFilter" (change)="onFilterChange()">
+            <option value="all">All Reservations</option>
+            <option value="pending">Pending ({{ pendingCount }})</option>
+            <option value="noRooms">No Rooms</option>
+            <option value="approved">Approved ({{ approvedCount }})</option>
+            <option value="rejected">Rejected</option>
+            <option value="byRoom">By Room</option>
+          </select>
+    
+          <select 
+            *ngIf="selectedFilter === 'byRoom'"
+            [(ngModel)]="selectedRoomId"
+            (change)="applyFilters()"
+          >
+            <option [ngValue]="null" disabled>Select a Room</option>
+            <option *ngFor="let room of rooms" [value]="room.id">{{ room.name }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-container">
+    <div class="reservation-list">
+      <div *ngIf="isLoading" class="loading-indicator">
+        <mat-spinner diameter="40"></mat-spinner>
+        <span>Loading reservations...</span>
+      </div>
+
+      <div *ngIf="!isLoading && roomSelectionRequired && selectedFilter === 'byRoom'" class="no-results">
+        Please select a room from the dropdown
+      </div>
+
+      <div *ngIf="!isLoading && filteredReservations.length === 0 && !roomSelectionRequired" class="no-results">
+        No reservations found for the selected filters
+      </div>
+
+      <div *ngFor="let res of filteredReservations" class="reservation-card" 
+           [class.approved]="res.status === 'Approved'" 
+           [class.pending]="res.status === 'Pending'" 
+           [class.rejected]="res.status === 'Rejected'">
+        <div class="reservation-header">
+          <h3>
+            <mat-icon>event</mat-icon>
+            {{ res.name }}
+          </h3>
+          <span class="status-badge" [class.approved]="res.status === 'Approved'" [class.pending]="res.status === 'Pending'" [class.rejected]="res.status === 'Rejected'">
+            <mat-icon class="status-icon">
+              {{ res.status === 'Approved' ? 'check_circle' : 
+                 res.status === 'Pending' ? 'pending' : 'cancel' }}
+            </mat-icon>
+            {{ res.status }}
+          </span>
+        </div>
+        
+        <div class="reservation-details">
+          <div class="detail-item">
+            <mat-icon>description</mat-icon>
+            <span>{{ res.purpose }}</span>
+          </div>
+          <div class="detail-item">
+            <mat-icon>meeting_room</mat-icon>
+            <span>{{ getSafeRoomName(res) }}</span>
+          </div>
+          <div class="detail-item">
+            <mat-icon>calendar_today</mat-icon>
+            <span>{{ datetimeService.formatDateRange(res.startDate, res.endDate) }}</span>
+          </div>
+          <div class="detail-item">
+            <mat-icon>schedule</mat-icon>
+            <span>{{ datetimeService.formatTimeRange(res.timeStart, res.timeDuration) }}</span>
+          </div>
+        </div>
+    
+        <div class="reservation-actions">
+          <!-- Show approve/reject only for pending status -->
+          <ng-container *ngIf="res.status === 'Pending'">
+            <button (click)="triggerAction('approve', res.id!)" class="action-btn approve">
+              <mat-icon>check_circle</mat-icon>
+              Approve
+            </button>
+            <button (click)="triggerAction('reject', res.id!)" class="action-btn reject">
+              <mat-icon>cancel</mat-icon>
+              Reject
+            </button>
+          </ng-container>
+        
+          <!-- Show delete for non-pending statuses (adjust based on requirements) -->
+          <button *ngIf="res.status !== 'Pending'" (click)="triggerAction('delete', res.id!)" class="action-btn delete">
+            <mat-icon>delete</mat-icon>
+            Delete
+          </button>
+        </div>
+        
+        <div class="reservation-card-accent"></div>
+      </div>
+    </div>
+  </div>
+
+  <app-confirmation-dialog 
+    *ngIf="showConfirmation"
+    [actionType]="currentAction!"
+    [title]="getDialogTitle()"
+    [message]="getDialogMessage()"
+    confirmText="Confirm"
+    cancelText="Cancel"
+    (confirmed)="handleDialogResponse($event)"
+  ></app-confirmation-dialog>
+</div>

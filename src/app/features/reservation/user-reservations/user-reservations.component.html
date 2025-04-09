@@ -1,0 +1,85 @@
+<div class="reservation-management-container">
+  <div class="header">
+    <div class="header-content">
+      <h1>
+        <mat-icon>event</mat-icon>
+        My Reservations
+      </h1>
+      <div class="header-controls">
+        <div class="stats">
+          <div class="stat-card">
+            <mat-icon>list_alt</mat-icon>
+            <div class="stat-info">
+              <span class="stat-value">{{ reservations.length }}</span>
+              <span class="stat-label">Total Reservations</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <mat-icon>check_circle</mat-icon>
+            <div class="stat-info">
+              <span class="stat-value">{{ approvedCount }}</span>
+              <span class="stat-label">Approved</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <mat-icon>pending</mat-icon>
+            <div class="stat-info">
+              <span class="stat-value">{{ pendingCount }}</span>
+              <span class="stat-label">Pending</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-container">
+    <div class="reservation-list">
+      <div *ngIf="reservations.length === 0" class="no-results">
+        You don't have any reservations yet
+      </div>
+
+      <div *ngFor="let res of reservations" class="reservation-card" 
+           [class.approved]="res.status === 'Approved'" 
+           [class.pending]="res.status === 'Pending'" 
+           [class.rejected]="res.status === 'Rejected'">
+        <div class="reservation-header">
+          <h3>
+            <mat-icon>event</mat-icon>
+            {{ res.name }}
+          </h3>
+          <span class="status-badge" [class.approved]="res.status === 'Approved'" 
+                [class.pending]="res.status === 'Pending'" 
+                [class.rejected]="res.status === 'Rejected'">
+            <mat-icon class="status-icon">
+              {{ res.status === 'Approved' ? 'check_circle' : 
+                 res.status === 'Pending' ? 'pending' : 'cancel' }}
+            </mat-icon>
+            {{ res.status }}
+          </span>
+        </div>
+        
+        <div class="reservation-details">
+          <div class="detail-item">
+            <mat-icon>description</mat-icon>
+            <span>{{ res.purpose }}</span>
+          </div>
+          <div class="detail-item">
+            <mat-icon>meeting_room</mat-icon>
+            <span>{{ getSafeRoomName(res) }}</span>
+          </div>
+          <div class="detail-item">
+            <mat-icon>calendar_today</mat-icon>
+            <span>{{ datetimeService.formatDateRange(res.startDate, res.endDate) }}</span>
+          </div>
+          <div class="detail-item">
+            <mat-icon>schedule</mat-icon>
+            <span>{{ datetimeService.formatTimeRange(res.timeStart, res.timeDuration) }}</span>
+          </div>
+        </div>
+        
+        <div class="reservation-card-accent"></div>
+      </div>
+    </div>
+  </div>
+</div>

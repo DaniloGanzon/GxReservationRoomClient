@@ -1,0 +1,85 @@
+<div class="base-calendar">
+  <!-- Updated Header Section -->
+  <header class="calendar-header">
+    <div class="header-content">
+      <div class="header-main-row">
+        <!-- Stat cards moved to the left -->
+        <div class="stats">
+          <!-- Room Details Stat Cards (shown when a room is selected) -->
+          <div class="stat-card" *ngIf="selectedRoom !== 'all'">
+            <mat-icon>location_city</mat-icon>
+            <div class="stat-info">
+              <span class="stat-value">{{ selectedRoom.building }}</span>
+              <span class="stat-label">Building</span>
+            </div>
+          </div>
+          
+          <div class="stat-card" *ngIf="selectedRoom !== 'all'">
+            <mat-icon>layers</mat-icon>
+            <div class="stat-info">
+              <span class="stat-value">Floor {{ selectedRoom.floor }}</span>
+              <span class="stat-label">Floor Level</span>
+            </div>
+          </div>
+          
+          <div class="stat-card" *ngIf="selectedRoom !== 'all'">
+            <mat-icon [style.color]="selectedRoom.status === 'Available' ? '#4CAF50' : '#F44336'">
+              {{ selectedRoom.status === 'Available' ? 'check_circle' : 'error' }}
+            </mat-icon>
+            <div class="stat-info">
+              <span class="stat-value">{{ selectedRoom.status }}</span>
+              <span class="stat-label">Status</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Right-aligned actions container -->
+        <div class="header-actions-container">
+          <div class="header-actions">
+            <button class="new-reservation-btn" (click)="showReservationForm()" matTooltip="Create new reservation">
+              <mat-icon>add</mat-icon>
+              New Reservation
+            </button>
+            
+            <div class="room-selection">
+              <mat-icon class="room-icon">meeting_room</mat-icon>
+              <select [(ngModel)]="selectedRoom" (change)="onRoomChange()" matTooltip="Select room to manage">
+                <option [ngValue]="'all'">All Rooms</option>
+                <option *ngFor="let room of rooms" [ngValue]="room">{{room.name}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content (unchanged) -->
+  <div class="calendar-content">
+    <app-custom-calendar 
+      class="left-calendar"
+      [reservations]="reservations"
+      [selectedDate]="selectedDate"
+      (dateSelect)="onDateSelect($event)">
+    </app-custom-calendar>
+  
+    <app-reservation-list
+      class="right-list"
+      [reservations]="reservations"
+      [isAdmin]="isAdmin"
+      [selectedDate]="selectedDate">
+    </app-reservation-list>
+  </div>
+
+  <!-- Popup Overlay (unchanged) -->
+  <div class="popup-overlay" *ngIf="showFormPopup" (click)="showFormPopup = false"></div>
+
+  <!-- Reservation Form Popup (unchanged) -->
+  <div class="reservation-popup" *ngIf="showFormPopup" @fadeInOut>
+    <app-reservation-form
+      [selectedRoom]="getSelectedRoomForForm()"
+      (submitForm)="handleReservationSubmit($event)"
+      (cancel)="showFormPopup = false">
+    </app-reservation-form>
+  </div>
+</div>

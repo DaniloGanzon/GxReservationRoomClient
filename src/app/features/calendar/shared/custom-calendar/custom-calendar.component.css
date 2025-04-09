@@ -1,0 +1,228 @@
+:host {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.custom-calendar {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.25rem;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+.custom-calendar:hover {
+  border-color: #d0d7de;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #e1e4e8;
+  flex-shrink: 0;
+}
+
+.calendar-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: #333;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.nav-button {
+  background: #ffffff;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  border: 1px solid #e1e4e8;
+}
+
+.nav-button:hover {
+  background: #f5f7fa;
+  transform: scale(1.1);
+  color: #4a6bff;
+  border-color: #4a6bff;
+}
+
+.nav-button mat-icon {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  flex: 1;
+  grid-auto-rows: 1fr;
+  min-height: 500px;
+}
+
+.weekday-header {
+  text-align: center;
+  padding: 0.75rem 0;
+  font-weight: 600;
+  color: #4a6bff;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Updated weekday names to 3-letter format */
+.weekday-header:nth-child(1)::after {
+  content: 'SUN';
+}
+
+.weekday-header:nth-child(2)::after {
+  content: 'MON';
+}
+
+.weekday-header:nth-child(3)::after {
+  content: 'TUE';
+}
+
+.weekday-header:nth-child(4)::after {
+  content: 'WED';
+}
+
+.weekday-header:nth-child(5)::after {
+  content: 'THU';
+}
+
+.weekday-header:nth-child(6)::after {
+  content: 'FRI';
+}
+
+.weekday-header:nth-child(7)::after {
+  content: 'SAT';
+}
+
+/* Hide original single-letter content */
+.weekday-header span {
+  display: none;
+}
+
+.calendar-week {
+  display: contents;
+}
+
+.calendar-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 8px;
+  position: relative;
+  transition: all 0.2s ease;
+  min-height: 90px;
+  background: #ffffff;
+  border: 1px solid #e1e4e8;
+}
+
+.calendar-day:hover {
+  background: #f5f7fa;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.day-number {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.outside-month .day-number {
+  color: #999;
+  opacity: 0.6;
+}
+
+.selected {
+  background: rgba(74, 107, 255, 0.1) !important;
+  color: #4a6bff;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(74, 107, 255, 0.1);
+  border-color: #4a6bff;
+}
+
+.has-reservation {
+  background: rgba(239, 83, 80, 0.1);
+  border: 1px solid rgba(239, 83, 80, 0.2);
+}
+
+.has-reservation .day-number {
+  color: #ef5350;
+  font-weight: 600;
+}
+
+.reservation-marker {
+  position: absolute;
+  bottom: 12px;
+  color: #ef5350;
+  animation: pulse 2s infinite;
+}
+
+.reservation-marker mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Responsive adjustments (same as before) */
+@media (max-width: 768px) {
+  .calendar-grid {
+    gap: 4px;
+  }
+
+  .calendar-day {
+    min-height: 70px;
+  }
+
+  .day-number {
+    font-size: 1.1rem;
+  }
+
+  .reservation-marker {
+    bottom: 8px;
+  }
+
+  .weekday-header {
+    font-size: 0.8rem;
+  }
+}

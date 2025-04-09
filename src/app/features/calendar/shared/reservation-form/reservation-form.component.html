@@ -1,0 +1,113 @@
+<form class="reservation-form" (ngSubmit)="onSubmit()">
+  <button type="button" class="close-btn" (click)="cancel.emit()">
+    <mat-icon>close</mat-icon>
+  </button>
+  
+  <h2>
+    <mat-icon>event_available</mat-icon>
+    New Reservation
+  </h2>
+  
+  <div class="form-group">
+    <label>
+      <mat-icon>meeting_room</mat-icon>
+      Room
+    </label>
+    <input [value]="selectedRoom.name" readonly>
+  </div>
+
+  <div class="form-group">
+    <label>
+      <mat-icon>badge</mat-icon>
+      Name
+      <mat-icon matTooltip="Enter your full name" class="tooltip-icon">help_outline</mat-icon>
+    </label>
+    <input 
+      type="text" 
+      [(ngModel)]="reservationData.name" 
+      name="name" 
+      required
+      placeholder="Meeting Name">
+  </div>
+
+  <div class="form-group">
+    <label>
+      <mat-icon>description</mat-icon>
+      Purpose
+    </label>
+    <textarea 
+      [(ngModel)]="reservationData.purpose" 
+      name="purpose" 
+      required
+      placeholder="Describe the purpose of this reservation"></textarea>
+  </div>
+
+  <div class="date-time-grid">
+    <div class="form-group">
+      <label>
+        <mat-icon>date_range</mat-icon>
+        Start Date
+      </label>
+      <input 
+        type="date" 
+        [(ngModel)]="reservationData.startDate" 
+        name="startDate" 
+        required
+        [min]="getMinDate()"
+        [max]="getMaxDate()"
+        (change)="onStartDateChange(reservationData.startDate)">
+    </div>
+
+    <div class="form-group">
+      <label>
+        <mat-icon>date_range</mat-icon>
+        End Date
+      </label>
+      <input 
+        type="date" 
+        [(ngModel)]="reservationData.endDate" 
+        name="endDate" 
+        required
+        [min]="reservationData.startDate || getMinDate()"
+        [max]="getMaxDate()">
+    </div>
+
+    <div class="form-group">
+      <label>
+        <mat-icon>access_time</mat-icon>
+        Start Time
+      </label>
+      <input 
+        type="time" 
+        [(ngModel)]="reservationData.startTime" 
+        name="startTime" 
+        required>
+    </div>
+
+    <div class="form-group">
+      <label>
+        <mat-icon>timer</mat-icon>
+        Duration
+        <mat-icon matTooltip="Maximum 4 hours per reservation" class="tooltip-icon">help_outline</mat-icon>
+      </label>
+      <input 
+        type="number" 
+        [(ngModel)]="reservationData.durationHours" 
+        name="durationHours" 
+        required
+        min="1"
+        max="4">
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <button type="button" class="btn-cancel" (click)="onCancel()">
+      <mat-icon>cancel</mat-icon>
+      Cancel
+    </button>
+    <button type="submit" class="btn-submit">
+      <mat-icon>check_circle</mat-icon>
+      Create Reservation
+    </button>
+  </div>
+</form>

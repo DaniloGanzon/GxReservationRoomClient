@@ -1,0 +1,73 @@
+<div class="app-container">
+  <div class="background-overlay">
+    <img src="/gxCover.jpg" alt="Background" class="background-image" />
+    <div class="overlay"></div>
+  </div>
+  
+  <aside class="sidebar" [class.collapsed]="!isSidebarOpen">
+    <div class="sidebar-content">
+      <div class="company-info">
+        <img src="/gxNew.png" alt="Company Logo" class="logo" />
+        <span class="company-name" *ngIf="isSidebarOpen">GX International</span>
+        <button class="toggle-btn" (click)="toggleSidebar()" matTooltip="{{isSidebarOpen ? 'Collapse' : 'Expand'}}">
+          <mat-icon>{{ isSidebarOpen ? 'chevron_left' : 'menu' }}</mat-icon>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul>
+          <li *ngIf="userRole === 'Admin' || userRole === 'Employee'">
+            <a [routerLink]="userRole === 'Admin' ? '/admin/calendar' : '/calendar'" 
+               routerLinkActive="active"
+               [routerLinkActiveOptions]="{exact: true}">
+              <mat-icon>calendar_today</mat-icon>
+              <span *ngIf="isSidebarOpen">Calendar</span>
+            </a>
+          </li>
+          
+          <li *ngIf="userRole === 'Admin'">
+            <a routerLink="/admin/rooms" routerLinkActive="active">
+              <mat-icon>meeting_room</mat-icon>
+              <span *ngIf="isSidebarOpen">Rooms</span>
+            </a>
+          </li>
+
+          <li *ngIf="userRole === 'Admin' || userRole === 'Employee'">
+            <a [routerLink]="userRole === 'Admin' ? '/admin/reservations' : '/reservations'" 
+               routerLinkActive="active">
+              <mat-icon>list_alt</mat-icon>
+              <span *ngIf="isSidebarOpen">Reservations</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="login-section">
+      <button *ngIf="!isAuthenticated" (click)="login()">
+        <mat-icon>login</mat-icon>
+        <span *ngIf="isSidebarOpen">Login</span>
+      </button>
+      <button *ngIf="isAuthenticated" (click)="showLogoutDialog = true">
+        <mat-icon>logout</mat-icon>
+        <span *ngIf="isSidebarOpen">Logout</span>
+      </button>      
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="content-container">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+  <!-- Add this at the bottom of your template -->
+  <app-confirmation-dialog 
+  *ngIf="showLogoutDialog"
+  actionType="logout"
+  title="Confirm Logout"
+  message="Are you sure you want to log out?"
+  confirmText="Logout"
+  cancelText="Cancel"
+  (confirmed)="onLogoutConfirmed($event)"
+  ></app-confirmation-dialog>
+</div>
