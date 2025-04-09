@@ -8,7 +8,6 @@ import { UserReservationsComponent } from './features/reservation/user-reservati
 import { AuthGuard } from './services/guard/AuthGuard';
 import { UnauthenticatedGuard } from './services/guard/UnauthenticatedGuard';
 import { AdminGuard } from './services/guard/AdminGuard';
-import { LayoutComponent } from './features/layout/layout.component';
 
 export const routes: Routes = [
     { path: '', component: AuthComponent, pathMatch: 'full', canActivate: [UnauthenticatedGuard] },

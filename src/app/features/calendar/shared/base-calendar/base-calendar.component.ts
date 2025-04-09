@@ -74,28 +74,30 @@ export class BaseCalendarComponent implements OnInit {
   protected loadReservations(): void {
     this.reservationService.getAllReservations().subscribe({
       next: reservations => {
-        // Store approved reservations separately for conflict checking
-        this.approvedReservations = this.filterApprovedReservations(reservations);
-        
-        // Maintain existing filtered reservations (includes pending for admin)
-        this.reservations = this.filterReservations(reservations);
+        // For non-admin users, we want ALL approved reservations regardless of who made them
+        if (!this.isAdmin) {
+          this.approvedReservations = this.filterApprovedReservations(reservations);
+          this.reservations = this.approvedReservations; // Show all approved in calendar
+        } 
+        // Admin behavior remains the same
+        else {
+          this.approvedReservations = this.filterApprovedReservations(reservations);
+          this.reservations = this.filterReservations(reservations);
+        }
         
         if (this.isAdmin) this.updateDashboardStats();
       },
       error: err => console.error('Failed to load:', err)
     });
   }
-
+  
   protected filterReservations(reservations: Reservation[]): Reservation[] {
     let filtered = this.selectedRoom === 'all' 
       ? reservations 
       : reservations.filter(res => res.room?.id === (this.selectedRoom as Room).id);
   
-    // Add approval filter for non-admin users
-    if (!this.isAdmin) {
-      filtered = filtered.filter(res => res.status === 'Approved');
-    }
-  
+    // Admin sees all reservations (approved/pending)
+    // Non-admin sees all approved reservations (handled in loadReservations)
     return filtered;
   }
 
