@@ -11,7 +11,7 @@ import { AdminGuard } from './services/guard/AdminGuard';
 import { LayoutComponent } from './features/layout/layout.component';
 
 export const routes: Routes = [
-    { path: '', component: LayoutComponent, pathMatch: 'full' },
+    { path: '', component: AuthComponent, pathMatch: 'full' },
     { 
         path: 'auth', 
         component: AuthComponent,
