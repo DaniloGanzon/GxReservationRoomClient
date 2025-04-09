@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start":  "http-server ./dist/gx-reservation-room-client/browser -p $PORT -c-1",
-    "build": "ng build --configuration production",
+    "start": "http-server ./dist/gx-reservation-room-client/browser -p $PORT -c-1 -P /",
+    "build": "ng build --configuration production --base-href /",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
