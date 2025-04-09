@@ -38,11 +38,12 @@ export class ReservationService {
   }
 
   getReservationsForUser(): Observable<Reservation[]> {
+    const userId = this.authService.getUserId(); // You'll need to implement this in AuthServic
     return this.http.get<Reservation[]>(
-      this.apiUrl,
-      { headers: this.authService.getAuthHeaders() }
+        `${this.apiUrl}/user/${userId}`,
+        { headers: this.authService.getAuthHeaders() }
     ).pipe(
-      map(reservations => this.formatReservations(reservations))
+        map(reservations => this.formatReservations(reservations))
     );
   }
 
