@@ -1,4 +1,4 @@
 export const environment = {
-    production: true,
-    apiUrl: 'https://bookroomgx-api.onrender.com' 
-  };
+  production: true,
+  apiUrl: 'https://bookroomgx-api.onrender.com/api'
+};
