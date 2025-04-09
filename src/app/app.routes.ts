@@ -8,8 +8,10 @@ import { UserReservationsComponent } from './features/reservation/user-reservati
 import { AuthGuard } from './services/guard/AuthGuard';
 import { UnauthenticatedGuard } from './services/guard/UnauthenticatedGuard';
 import { AdminGuard } from './services/guard/AdminGuard';
+import { LayoutComponent } from './features/layout/layout.component';
 
 export const routes: Routes = [
+    { path: '', component: LayoutComponent, pathMatch: 'full' },
     { 
         path: 'auth', 
         component: AuthComponent,
@@ -32,5 +34,5 @@ export const routes: Routes = [
             { path: 'reservations', component: UserReservationsComponent }
         ]
     },
-    { path: '**', redirectTo: 'auth' }
+    { path: '**', redirectTo: '' }
 ];
